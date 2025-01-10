@@ -1,26 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BlackJack Game</title>
     <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
-    <h1>BlackJack</h1>
-    <p id="message-el"> want to play game</p>
-    <p id="cards-el">Cards :</p>
-    <p id="sum-el">Sum :</p>
-    <button onclick="startGame()">START GAME</button>
-    <button onclick="newcard()">NEW CARD</button>
-    <p id="player-el"></p>
+    <div class="game-container">
+        <div class="header">
+            <h1>Blackjack</h1>
+            <div class="stats">
+                <p id="wins">Wins: 0</p>
+                <p id="losses">Losses: 0</p>
+                <p id="player-el"></p>
+            </div>
+            <div class="utility-buttons">
+                <button onclick="toggleRulesModal()" class="utility-btn rules-btn"><i class="fas fa-book"></i> RULES</button>
+                <button onclick="toggleBalanceModal()" class="utility-btn chips-btn"><i class="fas fa-plus-circle"></i> ADD CHIPS</button>
+            </div>
+        </div>
 
-    <!-- <p id="note">Note : sum of cards = 21 winner <br> sum of cards <= 20 continiue the game <br> sum of cards > 21 you
-            loss the game ! </p> -->
+        <div class="hands-container">
+            <div class="dealer-section">
+                <h2><i class="fas fa-user-tie"></i> Dealer's Hand</h2>
+                <div id="dealer-cards" class="cards-container"></div>
+                <p id="dealer-sum"></p>
+            </div>
+
+            <div class="player-section">
+                <h2><i class="fas fa-user"></i> Your Hand</h2>
+                <div id="player-cards" class="cards-container"></div>
+                <p id="player-sum"></p>
+            </div>
+        </div>
+
+        <div class="controls-container">
+            <div class="betting-controls">
+                <div class="bet-label">Your Bet:</div>
+                <input type="number" id="bet-amount" min="100" max="5000" value="500" step="100">
+                <button onclick="placeBet()" class="bet-btn"><i class="fas fa-coins"></i> PLACE BET</button>
+                <div class="balance-display">
+                    <div class="balance-label">Your Balance:</div>
+                    <div id="player-balance" class="balance-amount"></div>
+                    <button onclick="toggleBalanceModal()" class="add-chips-btn"><i class="fas fa-plus-circle"></i> ADD CHIPS</button>
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button onclick="startGame()" id="start-btn" disabled><i class="fas fa-play"></i> START GAME</button>
+                <button onclick="hit()" id="hit-btn" disabled><i class="fas fa-plus"></i> HIT</button>
+                <button onclick="stand()" id="stand-btn" disabled><i class="fas fa-hand-paper"></i> STAND</button>
+            </div>
+        </div>
+
+        <div id="message" class="message">Want to play a game?</div>
+
+        <!-- Modals -->
+        <div id="rules-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-book"></i> BlackJack Rules</h3>
+                    <button class="close-btn" onclick="toggleRulesModal()">&times;</button>
+                </div>
+                <div class="rules-content">
+                    <p><i class="fas fa-check"></i> Get as close to 21 as possible without going over</p>
+                    <p><i class="fas fa-check"></i> Dealer must hit on 16 and stand on 17</p>
+                    <p><i class="fas fa-check"></i> Face cards = 10, Aces = 1 or 11</p>
+                    <p><i class="fas fa-check"></i> Place your bet before each hand</p>
+                    <p><i class="fas fa-check"></i> Win double your bet on victory</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="balance-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Add Chips</h3>
+                    <button class="close-btn" onclick="toggleBalanceModal()">&times;</button>
+                </div>
+                <div class="balance-input-container">
+                    <input type="number" id="add-balance" min="500" max="50000" value="5000" step="500">
+                    <div class="quick-amounts">
+                        <button onclick="setQuickAmount(5000)">₹5,000</button>
+                        <button onclick="setQuickAmount(10000)">₹10,000</button>
+                        <button onclick="setQuickAmount(25000)">₹25,000</button>
+                    </div>
+                    <button onclick="addBalance()" class="add-balance-btn"><i class="fas fa-plus-circle"></i> Add Chips</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
-
 </html>
