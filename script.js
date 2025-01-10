@@ -327,11 +327,17 @@ function playSound(type) {
 
 // Modal functions
 function toggleRulesModal() {
-    const modal = document.getElementById("rules-modal");
-    if (modal.classList.contains('show')) {
-        modal.classList.remove('show');
+    const rulesModal = document.getElementById("rules-modal");
+    if (rulesModal.style.display === "flex") {
+        rulesModal.style.display = "none";
+        // Enable betting if coming from welcome popup
+        if (document.getElementById("welcome-popup").style.display === "none") {
+            document.getElementById("bet-amount").disabled = false;
+            document.getElementById("place-bet-btn").disabled = false;
+            messageEl.textContent = "Place your bet to begin!";
+        }
     } else {
-        modal.classList.add('show');
+        rulesModal.style.display = "flex";
     }
 }
 
@@ -370,6 +376,44 @@ window.onclick = function(event) {
     }
     if (event.target === balanceModal) {
         balanceModal.classList.remove('show');
+    }
+}
+
+// Show welcome popup on page load
+window.onload = function() {
+    // Show welcome popup
+    const welcomePopup = document.getElementById("welcome-popup");
+    if (welcomePopup) {
+        welcomePopup.style.display = "flex";
+    }
+    updateStats();
+};
+
+function showRules() {
+    // Hide welcome popup and show rules
+    document.getElementById("welcome-popup").style.display = "none";
+    document.getElementById("rules-modal").style.display = "flex";
+}
+
+function closePopup() {
+    const welcomePopup = document.getElementById("welcome-popup");
+    if (welcomePopup) {
+        welcomePopup.style.display = "none";
+        // Show rules modal after welcome popup
+        setTimeout(() => {
+            toggleRulesModal();
+            // Add event listener for rules modal close
+            const rulesModal = document.getElementById("rules-modal");
+            const rulesCloseBtn = rulesModal.querySelector(".close-btn");
+            const originalRulesClose = rulesCloseBtn.onclick;
+            rulesCloseBtn.onclick = function() {
+                if (originalRulesClose) originalRulesClose.call(this);
+                // Show balance modal after rules modal
+                setTimeout(() => {
+                    toggleBalanceModal();
+                }, 500);
+            };
+        }, 500);
     }
 }
 
