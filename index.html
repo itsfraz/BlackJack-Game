@@ -64,15 +64,51 @@
         <div id="rules-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3><i class="fas fa-book"></i> BlackJack Rules</h3>
+                    <h3><i class="fas fa-book"></i> How to Play Blackjack</h3>
                     <button class="close-btn" onclick="toggleRulesModal()">&times;</button>
                 </div>
                 <div class="rules-content">
-                    <p><i class="fas fa-check"></i> Get as close to 21 as possible without going over</p>
-                    <p><i class="fas fa-check"></i> Dealer must hit on 16 and stand on 17</p>
-                    <p><i class="fas fa-check"></i> Face cards = 10, Aces = 1 or 11</p>
-                    <p><i class="fas fa-check"></i> Place your bet before each hand</p>
-                    <p><i class="fas fa-check"></i> Win double your bet on victory</p>
+                    <div class="rules-section">
+                        <h4>Game Objective</h4>
+                        <p><i class="fas fa-bullseye"></i> Get closer to 21 than the dealer without going over</p>
+                        <p><i class="fas fa-crown"></i> Blackjack (21) pays 2.5x your bet!</p>
+                    </div>
+
+                    <div class="rules-section">
+                        <h4>Card Values</h4>
+                        <p><i class="fas fa-crown"></i> Face cards (J, Q, K) = 10</p>
+                        <p><i class="fas fa-dice-one"></i> Ace = 1 or 11 (automatically chosen)</p>
+                        <p><i class="fas fa-numbers"></i> Number cards = their face value</p>
+                    </div>
+
+                    <div class="rules-section">
+                        <h4>How to Play</h4>
+                        <ol>
+                            <li>1. Enter your bet amount (₹100 - ₹5000)</li>
+                            <li>2. Click "PLACE BET" (can click multiple times to increase bet)</li>
+                            <li>3. Click "START GAME" to begin</li>
+                            <li>4. Choose your move:
+                                <ul>
+                                    <li>"HIT" - Take another card</li>
+                                    <li>"STAND" - Keep your cards</li>
+                                </ul>
+                            </li>
+                            <li>5. Win conditions:
+                                <ul>
+                                    <li>Get Blackjack (21) = Win 2.5x bet</li>
+                                    <li>Beat dealer's hand = Win 2x bet</li>
+                                    <li>Dealer busts = Win 2x bet</li>
+                                    <li>Tie = Get your bet back</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="rules-section">
+                        <h4>Dealer Rules</h4>
+                        <p><i class="fas fa-robot"></i> Dealer must hit on 16 or below</p>
+                        <p><i class="fas fa-hand-paper"></i> Dealer must stand on 17 or above</p>
+                    </div>
                 </div>
             </div>
         </div>

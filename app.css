@@ -280,15 +280,55 @@ button:disabled {
 }
 
 .rules-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
-.rules-content p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.rules-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.rules-section h4 {
+    color: #ffd700;
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.rules-section p {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.rules-section i {
+    color: #ffd700;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.rules-section ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.rules-section ul {
+    margin: 5px 0;
+    padding-left: 30px;
+    list-style-type: circle;
+}
+
+.rules-section li {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.modal-header h3 {
+    color: #ffd700;
+    margin: 0;
+    font-size: 1.5em;
 }
 
 .balance-input-container {
