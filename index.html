@@ -38,8 +38,11 @@
 
         <div class="controls-container">
             <div class="betting-controls">
-                <div class="bet-label">Your Bet:</div>
-                <input type="number" id="bet-amount" min="100" max="5000" value="500" step="100">
+                <div class="bet-info">
+                    <div class="bet-label">Your Bet:</div>
+                    <input type="number" id="bet-amount" min="100" max="5000" value="500" step="100">
+                    <div class="current-bet">Current Bet: <span id="current-bet-amount">₹0</span></div>
+                </div>
                 <button onclick="placeBet()" class="bet-btn"><i class="fas fa-coins"></i> PLACE BET</button>
                 <div class="balance-display">
                     <div class="balance-label">Your Balance:</div>

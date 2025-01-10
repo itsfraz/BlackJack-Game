@@ -34,6 +34,7 @@ function updateStats() {
     document.getElementById("losses").textContent = `Losses: ${gameStats.losses}`;
     document.getElementById("player-el").textContent = `${player.name}: ${formatCurrency(player.chips)}`;
     document.getElementById("player-balance").textContent = formatCurrency(player.chips);
+    document.getElementById("current-bet-amount").textContent = formatCurrency(currentBet);
 }
 
 function formatCurrency(amount) {
@@ -123,53 +124,71 @@ function updateUI() {
 }
 
 function placeBet() {
-    const betAmount = parseInt(betInput.value);
+    const betAmount = parseInt(document.getElementById("bet-amount").value);
+    const betDisplay = document.getElementById("current-bet-amount");
+    const totalBetAmount = currentBet + betAmount; // Add new bet to existing bet
     
     if (betAmount > player.chips) {
-        messageEl.textContent = "You don't have enough chips!";
+        messageEl.textContent = "Not enough chips! Add more chips or reduce your bet.";
+        return;
+    }
+    if (totalBetAmount > 5000) {
+        messageEl.textContent = "Total bet cannot exceed ₹5,000";
         return;
     }
     if (betAmount < 100) {
-        messageEl.textContent = "Minimum bet is ₹100!";
+        messageEl.textContent = "Minimum bet is ₹100";
         return;
     }
     
-    currentBet = betAmount;
+    // Update current bet and chips
+    currentBet = totalBetAmount;
     player.chips -= betAmount;
-    betInput.disabled = true;
-    startBtn.disabled = false;
-    messageEl.textContent = `Bet placed: ${formatCurrency(betAmount)}`;
+    
+    // Update displays
+    betDisplay.textContent = formatCurrency(currentBet);
     updateStats();
+    
+    // Update UI state
+    startBtn.disabled = false;
+    messageEl.textContent = `Total bet: ${formatCurrency(currentBet)}. Click START GAME to begin!`;
 }
 
 function startGame() {
-    if (!currentBet) {
-        messageEl.textContent = "Place your bet first!";
+    if (gameInProgress) return;
+    
+    if (currentBet === 0) {
+        messageEl.textContent = "Please place a bet first!";
         return;
     }
     
-    gameInProgress = true;
+    // Disable betting once game starts
+    betInput.disabled = true;
     
-    // Reset and shuffle deck
+    // Reset game state
     deck = buildDeck();
     shuffleDeck();
+    playerCards = [];
+    dealerCards = [];
+    playerSum = 0;
+    dealerSum = 0;
     
     // Deal initial cards
-    dealerCards = [deck.pop(), deck.pop()];
-    playerCards = [deck.pop(), deck.pop()];
+    playerCards.push(deck.pop());
+    dealerCards.push(deck.pop());
+    playerCards.push(deck.pop());
+    dealerCards.push(deck.pop());
     
-    // Calculate initial sums
-    dealerSum = calculateSum(dealerCards);
     playerSum = calculateSum(playerCards);
+    dealerSum = calculateSum(dealerCards);
     
-    // Enable controls
+    gameInProgress = true;
     hitBtn.disabled = false;
     standBtn.disabled = false;
     startBtn.disabled = true;
     
     updateUI();
     checkForNaturalBlackjack();
-    playSound("card");
 }
 
 function hit() {
@@ -230,19 +249,22 @@ function endGame() {
     hitBtn.disabled = true;
     standBtn.disabled = true;
     
+    let winAmount = 0;
     // Determine winner
     if (playerSum > 21) {
         messageEl.textContent = "You bust! Dealer wins!";
         gameStats.losses++;
         playSound("lose");
     } else if (dealerSum > 21) {
-        messageEl.textContent = "Dealer busts! You win!";
-        player.chips += currentBet * 2;
+        winAmount = currentBet * 2;
+        messageEl.textContent = `Dealer busts! You win ${formatCurrency(winAmount)}!`;
+        player.chips += winAmount;
         gameStats.wins++;
         showCelebration();
     } else if (playerSum > dealerSum) {
-        messageEl.textContent = "You win!";
-        player.chips += currentBet * 2;
+        winAmount = currentBet * 2;
+        messageEl.textContent = `You win ${formatCurrency(winAmount)}!`;
+        player.chips += winAmount;
         gameStats.wins++;
         showCelebration();
     } else if (playerSum < dealerSum) {
@@ -250,22 +272,24 @@ function endGame() {
         gameStats.losses++;
         playSound("lose");
     } else {
-        messageEl.textContent = "Push! It's a tie!";
-        player.chips += currentBet;
+        winAmount = currentBet;
+        messageEl.textContent = `Push! It's a tie! You get back ${formatCurrency(winAmount)}`;
+        player.chips += winAmount;
         playSound("win");
     }
     
     // Reset for next game
-    currentBet = 0;
     betInput.disabled = false;
-    betInput.value = "500";
+    document.getElementById("current-bet-amount").textContent = "₹0";
+    currentBet = 0;
     updateStats();
 }
 
 function checkForNaturalBlackjack() {
     if (playerSum === 21) {
-        messageEl.textContent = "Blackjack! You win!";
-        player.chips += Math.floor(currentBet * 2.5);
+        const winAmount = Math.floor(currentBet * 2.5);
+        messageEl.textContent = `Blackjack! You win ${formatCurrency(winAmount)}!`;
+        player.chips += winAmount;
         gameStats.wins++;
         showCelebration();
         gameInProgress = false;
@@ -273,6 +297,7 @@ function checkForNaturalBlackjack() {
         standBtn.disabled = true;
         betInput.disabled = false;
         currentBet = 0;
+        document.getElementById("current-bet-amount").textContent = "₹0";
         updateStats();
     }
 }
