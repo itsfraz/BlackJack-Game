@@ -55,6 +55,30 @@ body {
     margin-bottom: 10px;
 }
 
+.utility-buttons .utility-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    background: #ffd700;
+    color: #2d2d2d;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.utility-buttons .utility-btn:hover {
+    background: #ffcd00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.utility-buttons .utility-btn i {
+    font-size: 1.2em;
+}
+
 .hands-container {
     display: flex;
     justify-content: space-around;
