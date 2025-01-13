@@ -134,8 +134,8 @@ cd blackjack-game</code></pre>
 <p>If you have any questions or feedback, feel free to reach out:</p>
 
 <ul>
-  <li><strong>Email</strong>: your-email@example.com</li>
-  <li><strong>GitHub</strong>: <a href="https://github.com/your-username">your-username</a></li>
+  <li><strong>Email</strong>: faraj.ansari16@gmail.com</li>
+  <li><strong>GitHub</strong>: <a href="https://github.com/itsfraz">ItsFraz</a></li>
 </ul>
 
 ---
